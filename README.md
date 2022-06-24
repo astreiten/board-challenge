@@ -1,1 +1,1 @@
-# board-challenge
+# Board Challenge
