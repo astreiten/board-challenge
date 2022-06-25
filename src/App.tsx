@@ -1,11 +1,16 @@
+import { useState } from "react";
 import "./App.css";
+import { Board } from "./Board";
 
 function App() {
+  const [board, setBoard] = useState<string[][]>([
+    ["-", "+", "-", "-"],
+    ["-", "+", "-", "-"],
+    ["-", "+", "-", "-"],
+  ]);
   return (
     <div className="App">
-      <header className="App-header">
-        <p>Board Challenge</p>
-      </header>
+      <Board board={board} setBoard={setBoard} />
     </div>
   );
 }
