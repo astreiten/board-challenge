@@ -16,7 +16,9 @@ export const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
           <div key={i}>
             {row.map((square, j) => {
               return (
-                <button onClick={() => switchActive(i, j)}>{square}</button>
+                <button key={j} onClick={() => switchActive(i, j)}>
+                  {square}
+                </button>
               );
             })}
           </div>
