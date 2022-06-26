@@ -3,15 +3,29 @@ import { getBoard } from "./api/getBoard";
 import { submitBoard } from "./api/submitBoard";
 import "./App.css";
 import { Board } from "./Board";
+import { BoardType } from "./models/board";
+import { buildBoard } from "./utils/buildBoard";
 
 function App() {
-  const [board, setBoard] = useState<string[][]>([]);
+  const [board, setBoard] = useState<BoardType[][]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const buildClusters = () => {
+    submitBoard(board).then((clusters: number[][][]) => {
+      let boardCopy = [...board];
+      clusters.forEach((cluster) => {
+        cluster.forEach(
+          (cell) => (boardCopy[cell[0]][cell[1]].cluster = "lightblue")
+        );
+      });
+      setBoard(boardCopy);
+    });
+  };
 
   useEffect(() => {
     setLoading(true);
     getBoard().then((value: string[][]) => {
-      setBoard(value);
+      setBoard(buildBoard(value));
       setLoading(false);
     });
   }, []);
@@ -24,7 +38,7 @@ function App() {
         <Board board={board} setBoard={setBoard} />
       )}
       <div>
-        <button onClick={() => submitBoard(board)}>Submit</button>
+        <button onClick={buildClusters}>Submit</button>
       </div>
     </div>
   );

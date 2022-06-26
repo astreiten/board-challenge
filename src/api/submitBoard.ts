@@ -1,18 +1,20 @@
-export async function submitBoard(board: string[][]): Promise<number[][][]> {
+import { BoardType } from "../models/board";
+
+export async function submitBoard(board: BoardType[][]): Promise<number[][][]> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       console.log(board);
       resolve([
         [
-          [0, 1],
-          [0, 2],
+          [1, 0],
+          [2, 0],
         ],
-        [[2, 3]],
-        [[4, 3]],
-        [[7, 3]],
-        [[8, 5]],
+        [[3, 2]],
+        [[3, 4]],
+        [[3, 7]],
+        [[5, 8]],
         [
-          [8, 7],
+          [7, 8],
           [8, 8],
         ],
       ]);
