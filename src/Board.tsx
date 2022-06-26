@@ -1,3 +1,4 @@
+import { Button, Grid } from "@mui/material";
 import { BoardType } from "./models/board";
 
 export const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
@@ -15,21 +16,25 @@ export const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
     <>
       {board.map((row, i) => {
         return (
-          <div key={i}>
+          <Grid container key={i} justifyContent="center" alignItems="center">
             {row.map((cell, j) => {
               return (
-                <button
-                  key={j}
-                  style={{
-                    backgroundColor: cell.cluster ? "red" : "",
-                  }}
-                  onClick={() => switchActive(i, j)}
-                >
-                  {cell.value}
-                </button>
+                <Grid item xs={1}>
+                  <Button
+                    variant="contained"
+                    key={j}
+                    style={{
+                      backgroundColor: cell.cluster ? "red" : "",
+                      width: "100%",
+                    }}
+                    onClick={() => switchActive(i, j)}
+                  >
+                    {cell.value}
+                  </Button>
+                </Grid>
               );
             })}
-          </div>
+          </Grid>
         );
       })}
     </>
