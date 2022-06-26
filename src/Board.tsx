@@ -1,10 +1,12 @@
+import { BoardType } from "./models/board";
+
 export const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
   const switchActive = (i: number, j: number) => {
-    const boardCopy = [...board];
-    if (board[i][j] === "-") {
-      boardCopy[i][j] = "+";
+    let boardCopy = [...board];
+    if (board[i][j].value === "-") {
+      boardCopy[i][j].value = "+";
     } else {
-      boardCopy[i][j] = "-";
+      boardCopy[i][j].value = "-";
     }
     setBoard(boardCopy);
   };
@@ -14,10 +16,16 @@ export const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
       {board.map((row, i) => {
         return (
           <div key={i}>
-            {row.map((square, j) => {
+            {row.map((cell, j) => {
               return (
-                <button key={j} onClick={() => switchActive(i, j)}>
-                  {square}
+                <button
+                  key={j}
+                  style={{
+                    backgroundColor: cell.cluster ? "red" : "",
+                  }}
+                  onClick={() => switchActive(i, j)}
+                >
+                  {cell.value}
                 </button>
               );
             })}
@@ -29,6 +37,6 @@ export const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
 };
 
 interface BoardProps {
-  board: string[][];
-  setBoard: React.Dispatch<React.SetStateAction<string[][]>>;
+  board: BoardType[][];
+  setBoard: React.Dispatch<React.SetStateAction<BoardType[][]>>;
 }
