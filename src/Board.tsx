@@ -1,5 +1,7 @@
 import { Button, Grid } from "@mui/material";
 import { BoardType } from "./models/board";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 
 export const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
   const switchActive = (i: number, j: number) => {
@@ -24,12 +26,14 @@ export const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
                     variant="contained"
                     key={j}
                     style={{
-                      backgroundColor: cell.cluster ? "red" : "",
+                      backgroundColor: cell.cluster ? "#3282B8" : "#F7FBFC",
                       width: "100%",
+                      borderRadius: "0",
+                      color: "#1B262C",
                     }}
                     onClick={() => switchActive(i, j)}
                   >
-                    {cell.value}
+                    {cell.value === "+" ? <AddIcon /> : <RemoveIcon />}
                   </Button>
                 </Grid>
               );

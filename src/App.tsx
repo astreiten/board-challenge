@@ -1,4 +1,11 @@
-import { Grid, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  styled,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { getBoard } from "./api/getBoard";
 import { submitBoard } from "./api/submitBoard";
@@ -33,20 +40,39 @@ function App() {
   return (
     <Container>
       <TopBarContainer container justifyContent="center" alignItems="center">
-        <TopBarItem item xs={6}>
-          <Typography variant="h3">Board Challenge</Typography>
+        <TopBarItem item xs={12} md={6} lg={6}>
+          <Typography variant="h3" fontFamily={"Roboto"}>
+            Board Challenge
+          </Typography>
         </TopBarItem>
       </TopBarContainer>
       <Grid container justifyContent="center" alignItems="center">
         {loading ? (
-          <b>{"loading"}</b>
+          <Box sx={{ display: "flex", marginTop: "10rem" }}>
+            <CircularProgress size={100} />
+          </Box>
         ) : (
-          <Grid item xs={12} md={6} lg={10}>
+          <Grid item xs={12} md={8} lg={6} sx={{ marginTop: "2rem" }}>
             {" "}
             <Board board={board} setBoard={setBoard} />
-            <div>
-              <button onClick={buildClusters}>Submit</button>
-            </div>
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              sx={{ marginTop: "2rem" }}
+            >
+              <Button
+                variant="contained"
+                onClick={buildClusters}
+                sx={{
+                  color: "#1B262C",
+                  fontFamily: "Roboto",
+                  backgroundColor: "#769FCD",
+                }}
+              >
+                Submit
+              </Button>
+            </Grid>
           </Grid>
         )}
       </Grid>
@@ -55,13 +81,13 @@ function App() {
 }
 
 const Container = styled("div")({
-  backgroundColor: "#c8d8e4",
+  backgroundColor: "#D6E6F2",
   height: "100vh",
   margin: "0",
 });
 
 const TopBarContainer = styled(Grid)({
-  backgroundColor: "#2b6777",
+  backgroundColor: "#769FCD",
   height: "5rem",
 });
 
