@@ -55,6 +55,6 @@ export async function submitBoard(board: BoardType[][]): Promise<number[][][]> {
       const clusters = getClusters(board);
       console.log(clusters);
       resolve(clusters);
-    }, 3000);
+    }, 1500);
   });
 }
