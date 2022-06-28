@@ -57,7 +57,7 @@ function App() {
     <Container>
       <TopBarContainer container justifyContent="center" alignItems="center">
         <TopBarItem item xs={12} md={6} lg={6}>
-          <Typography variant="h3" fontFamily={"Roboto"}>
+          <Typography data-testid="title" variant="h3" fontFamily={"Roboto"}>
             Board Challenge
           </Typography>
         </TopBarItem>
@@ -65,10 +65,17 @@ function App() {
       <Grid container justifyContent="center" alignItems="center">
         {loading ? (
           <Box sx={{ display: "flex", marginTop: "10rem" }}>
-            <CircularProgress size={100} />
+            <CircularProgress data-testid="spinner" size={100} />
           </Box>
         ) : (
-          <Grid item xs={12} md={8} lg={5 + value} sx={{ marginTop: "2rem" }}>
+          <Grid
+            data-testid="board"
+            item
+            xs={12}
+            md={8}
+            lg={5 + value}
+            sx={{ marginTop: "2rem" }}
+          >
             <Board board={board} setBoard={setBoard} submitted={submitted} />
             <Grid
               container

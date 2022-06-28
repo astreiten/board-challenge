@@ -26,6 +26,7 @@ export const Board: React.FC<BoardProps> = ({ board, setBoard, submitted }) => {
                     variant="contained"
                     disabled={submitted}
                     key={j}
+                    data-testid={"" + i + j}
                     style={{
                       backgroundColor: cell.cluster ? "#3282B8" : "#F7FBFC",
                       width: "100%",
@@ -34,7 +35,11 @@ export const Board: React.FC<BoardProps> = ({ board, setBoard, submitted }) => {
                     }}
                     onClick={() => switchActive(i, j)}
                   >
-                    {cell.value === "+" ? <AddIcon /> : <RemoveIcon />}
+                    {cell.value === "+" ? (
+                      <AddIcon data-testid={"+" + i + j} />
+                    ) : (
+                      <RemoveIcon data-testid={"-" + i + j} />
+                    )}
                   </Button>
                 </Grid>
               );
