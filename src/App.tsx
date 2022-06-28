@@ -3,6 +3,7 @@ import {
   Button,
   CircularProgress,
   Grid,
+  Slider,
   styled,
   Typography,
 } from "@mui/material";
@@ -16,8 +17,12 @@ import { buildBoard } from "./utils/buildBoard";
 function App() {
   const [board, setBoard] = useState<BoardType[][]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [value, setValue] = useState<any>(1);
 
   const buildClusters = () => {
+    setSubmitting(true);
     submitBoard(board).then((clusters: number[][][]) => {
       let boardCopy = [...board];
       clusters.forEach((cluster) => {
@@ -26,15 +31,26 @@ function App() {
         );
       });
       setBoard(boardCopy);
+      setSubmitted(true);
+      setSubmitting(false);
     });
   };
 
-  useEffect(() => {
+  const getAndSetBoard = () => {
     setLoading(true);
     getBoard().then((value: string[][]) => {
       setBoard(buildBoard(value));
       setLoading(false);
     });
+  };
+
+  const resetBoard = () => {
+    setSubmitted(false);
+    getAndSetBoard();
+  };
+
+  useEffect(() => {
+    getAndSetBoard();
   }, []);
 
   return (
@@ -52,26 +68,55 @@ function App() {
             <CircularProgress size={100} />
           </Box>
         ) : (
-          <Grid item xs={12} md={8} lg={6} sx={{ marginTop: "2rem" }}>
-            {" "}
-            <Board board={board} setBoard={setBoard} />
+          <Grid item xs={12} md={8} lg={5 + value} sx={{ marginTop: "2rem" }}>
+            <Board board={board} setBoard={setBoard} submitted={submitted} />
             <Grid
               container
               justifyContent="center"
               alignItems="center"
               sx={{ marginTop: "2rem" }}
             >
-              <Button
-                variant="contained"
-                onClick={buildClusters}
-                sx={{
-                  color: "#1B262C",
-                  fontFamily: "Roboto",
-                  backgroundColor: "#769FCD",
-                }}
-              >
-                Submit
-              </Button>
+              {submitting ? (
+                <CircularProgress />
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={submitted ? resetBoard : buildClusters}
+                  sx={{
+                    color: "#1B262C",
+                    fontFamily: "Roboto",
+                    backgroundColor: "#769FCD",
+                  }}
+                >
+                  {submitted ? "Reset" : "Submit"}
+                </Button>
+              )}
+            </Grid>
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              sx={{ marginTop: "2rem" }}
+            >
+              <Box sx={{ width: 300 }}>
+                <Typography>Board Size</Typography>
+                <Slider
+                  aria-label="Board Size"
+                  defaultValue={1}
+                  getAriaValueText={(value, index) => {
+                    return "$(value)";
+                  }}
+                  valueLabelDisplay="auto"
+                  step={1}
+                  marks
+                  min={1}
+                  max={6}
+                  value={value}
+                  onChange={(event, value) => {
+                    setValue(value);
+                  }}
+                />
+              </Box>
             </Grid>
           </Grid>
         )}

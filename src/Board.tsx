@@ -3,7 +3,7 @@ import { BoardType } from "./models/board";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 
-export const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
+export const Board: React.FC<BoardProps> = ({ board, setBoard, submitted }) => {
   const switchActive = (i: number, j: number) => {
     let boardCopy = [...board];
     if (board[i][j].value === "-") {
@@ -24,6 +24,7 @@ export const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
                 <Grid item xs={1}>
                   <Button
                     variant="contained"
+                    disabled={submitted}
                     key={j}
                     style={{
                       backgroundColor: cell.cluster ? "#3282B8" : "#F7FBFC",
@@ -48,4 +49,5 @@ export const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
 interface BoardProps {
   board: BoardType[][];
   setBoard: React.Dispatch<React.SetStateAction<BoardType[][]>>;
+  submitted: boolean;
 }
