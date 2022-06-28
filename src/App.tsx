@@ -19,15 +19,16 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [value, setValue] = useState<any>(1);
+  const [sliderValue, setSliderValue] = useState<any>(1);
 
   const buildClusters = () => {
     setSubmitting(true);
     submitBoard(board).then((clusters: number[][][]) => {
       let boardCopy = [...board];
       clusters.forEach((cluster) => {
+        let clusterColor = Math.floor(Math.random() * 16777215).toString(16);
         cluster.forEach(
-          (cell) => (boardCopy[cell[0]][cell[1]].cluster = "lightblue")
+          (cell) => (boardCopy[cell[0]][cell[1]].cluster = clusterColor)
         );
       });
       setBoard(boardCopy);
@@ -73,10 +74,15 @@ function App() {
             item
             xs={12}
             md={8}
-            lg={5 + value}
+            lg={5 + sliderValue}
             sx={{ marginTop: "2rem" }}
           >
-            <Board board={board} setBoard={setBoard} submitted={submitted} />
+            <Board
+              board={board}
+              setBoard={setBoard}
+              submitted={submitted}
+              boardSize={sliderValue}
+            />
             <Grid
               container
               justifyContent="center"
@@ -113,14 +119,15 @@ function App() {
                   getAriaValueText={(value, index) => {
                     return "$(value)";
                   }}
+                  sx={{ color: "#769FCD" }}
                   valueLabelDisplay="auto"
                   step={1}
                   marks
                   min={1}
                   max={6}
-                  value={value}
+                  value={sliderValue}
                   onChange={(event, value) => {
-                    setValue(value);
+                    setSliderValue(value);
                   }}
                 />
               </Box>
@@ -135,7 +142,6 @@ function App() {
 const Container = styled("div")({
   backgroundColor: "#D6E6F2",
   height: "100vh",
-  margin: "0",
 });
 
 const TopBarContainer = styled(Grid)({
